@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Disc3, Mic2, Calendar, Mail, Camera, Tv, Home, User } from 'lucide-react';
+import { Menu, X, Home, User, Disc3, Newspaper, Mail } from 'lucide-react';
+import { FaSpotify, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,19 +10,22 @@ function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-// Added 'About' to the navigation links
+// =========================================
+// NAVIGATION DATA
+// Updated to match the final app structure
+// =========================================
 const navLinks = [
   { name: 'Home', href: '#home', icon: Home },
   { name: 'About', href: '#about', icon: User },
   { name: 'Releases', href: '#releases', icon: Disc3 },
-  { name: 'Tours', href: '#tours', icon: Calendar },
+  { name: 'Press', href: '#press', icon: Newspaper },
   { name: 'Contact', href: '#contact', icon: Mail },
 ];
 
 const socialLinks = [
-  { name: 'Spotify', href: '#', icon: Mic2 }, 
-  { name: 'Instagram', href: '#', icon: Camera },
-  { name: 'YouTube', href: '#', icon: Tv },       
+  { name: 'Spotify', href: 'https://open.spotify.com/artist/0xjyyAiXfySSYUJInGzJYL?si=t1gI9J7eQJ6HpWOMMBKUqQ', icon: FaSpotify }, 
+  { name: 'Instagram', href: 'https://www.instagram.com/scrizophernic_gladiator?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==', icon: FaInstagram },
+  { name: 'YouTube', href: 'https://youtube.com/@amitdutta-95?si=mxQ85OqERx5CxO-l', icon: FaYoutube },       
 ];
 
 export default function Navbar() {
@@ -95,15 +99,15 @@ export default function Navbar() {
                 href={social.href}
                 target="_blank"
                 rel="noreferrer"
-                className="text-zinc-400 hover:text-white transition-transform hover:scale-110 duration-300"
+                className="text-zinc-400 hover:text-white transition-all hover:scale-110 duration-300"
               >
-                <social.icon size={20} strokeWidth={1.5} />
+                <social.icon size={20} />
               </a>
             ))}
           </div>
-          <button className="px-6 py-2 bg-white text-black font-bold uppercase tracking-wider text-xs rounded-full hover:bg-zinc-200 transition-colors">
+          <a href="#releases" className="px-6 py-2 bg-white text-black font-bold uppercase tracking-wider text-xs rounded-full hover:bg-zinc-200 transition-colors">
             Listen Now
-          </button>
+          </a>
         </div>
       </motion.nav>
 
@@ -191,7 +195,7 @@ export default function Navbar() {
               animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
               exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="fixed inset-0 z-50 flex flex-col justify-center bg-black/90 px-8"
+              className="fixed inset-0 z-50 flex flex-col justify-center bg-black/95 px-8"
             >
               <div className="flex flex-col gap-8">
                 {navLinks.map((link, i) => (
@@ -229,6 +233,8 @@ export default function Navbar() {
                   <a
                     key={social.name}
                     href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
                     className="p-3 rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-colors"
                   >
                     <social.icon size={20} />
