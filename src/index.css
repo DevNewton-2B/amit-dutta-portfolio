@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   PRODUCTION UTILITY: HIDE UNIVERSAL SCROLLBAR
+   Ensures smooth scrolling libraries remain fully functional while removing 
+   the default browser visual scrollbar layout.
+   ========================================================================== */
+
+/* Target the root html and body elements for cross-browser support */
+html, body {
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+  
+  /* Hide scrollbar for IE and Legacy Edge */
+  -ms-overflow-style: none;
+}
+
+/* Target WebKit browsers (Chrome, Safari, Opera, newer Edge) */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+}
