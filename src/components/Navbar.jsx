@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Home, User, Disc3, Newspaper, Mail } from 'lucide-react';
+import { Menu, X, Home, User, Disc3, Radio, Newspaper, Mail } from 'lucide-react';
 import { FaSpotify, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -11,13 +11,13 @@ function cn(...inputs) {
 }
 
 // =========================================
-// NAVIGATION DATA
-// Updated to match the final app structure
+// NAVIGATION DATA (Updated with Vault)
 // =========================================
 const navLinks = [
   { name: 'Home', href: '#home', icon: Home },
   { name: 'About', href: '#about', icon: User },
   { name: 'Releases', href: '#releases', icon: Disc3 },
+  { name: 'Vault', href: '#vault', icon: Radio }, // The 3D Section
   { name: 'Press', href: '#press', icon: Newspaper },
   { name: 'Contact', href: '#contact', icon: Mail },
 ];
@@ -33,7 +33,6 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('Home');
 
-  // Detect scroll to change navbar opacity/styling
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -42,7 +41,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -53,9 +51,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* =========================================
-          DESKTOP NAVIGATION (1024px and above)
-          ========================================= */}
+      {/* DESKTOP NAVIGATION */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -80,11 +76,11 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               onClick={() => setActiveSection(link.name)}
-              className="relative text-sm font-medium tracking-widest text-zinc-300 uppercase transition-colors hover:text-white group"
+              className="relative text-xs font-bold tracking-[0.2em] text-zinc-400 uppercase transition-colors hover:text-white group"
             >
               {link.name}
               <span className={cn(
-                "absolute -bottom-2 left-0 h-[2px] bg-white transition-all duration-300",
+                "absolute -bottom-2 left-0 h-[2px] bg-red-500 transition-all duration-300",
                 activeSection === link.name ? "w-full" : "w-0 group-hover:w-full"
               )} />
             </a>
@@ -105,15 +101,13 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          <a href="#releases" className="px-6 py-2 bg-white text-black font-bold uppercase tracking-wider text-xs rounded-full hover:bg-zinc-200 transition-colors">
+          <a href="#releases" className="px-6 py-2 bg-white text-black font-bold uppercase tracking-wider text-xs rounded-full hover:bg-zinc-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">
             Listen Now
           </a>
         </div>
       </motion.nav>
 
-      {/* =========================================
-          TABLET NAVIGATION (Floating Bottom Dock)
-          ========================================= */}
+      {/* TABLET NAVIGATION */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex lg:hidden pointer-events-none w-full justify-center px-6">
         <motion.nav
           initial={{ y: 100, opacity: 0 }}
@@ -131,7 +125,7 @@ export default function Navbar() {
                 className={cn(
                   "flex items-center justify-center p-4 rounded-full transition-all duration-300",
                   isActive 
-                    ? "bg-white text-black" 
+                    ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)]" 
                     : "text-zinc-400 hover:text-white hover:bg-white/10"
                 )}
               >
@@ -142,9 +136,7 @@ export default function Navbar() {
         </motion.nav>
       </div>
 
-      {/* =========================================
-          MOBILE NAVIGATION (Top Bar + Fullscreen Overlay)
-          ========================================= */}
+      {/* MOBILE NAVIGATION */}
       <div className="md:hidden">
         <nav
           className={cn(
@@ -163,23 +155,11 @@ export default function Navbar() {
             <motion.div animate={mobileMenuOpen ? "open" : "closed"} className="relative w-6 h-6 flex items-center justify-center">
               <AnimatePresence mode="wait">
                 {mobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
                     <X size={28} />
                   </motion.div>
                 ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
                     <Menu size={28} />
                   </motion.div>
                 )}
@@ -197,7 +177,7 @@ export default function Navbar() {
               transition={{ duration: 0.4, ease: "easeInOut" }}
               className="fixed inset-0 z-50 flex flex-col justify-center bg-black/95 px-8"
             >
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-6">
                 {navLinks.map((link, i) => (
                   <motion.a
                     key={link.name}
@@ -212,10 +192,10 @@ export default function Navbar() {
                     }}
                     className="group flex items-center gap-6"
                   >
-                    <span className="text-zinc-600 group-hover:text-white transition-colors duration-300">
-                      <link.icon size={32} strokeWidth={1} />
+                    <span className="text-zinc-600 group-hover:text-red-500 transition-colors duration-300">
+                      <link.icon size={28} strokeWidth={1.5} />
                     </span>
-                    <span className="text-4xl font-black uppercase tracking-tighter text-transparent overflow-hidden bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-600 group-hover:from-white group-hover:to-zinc-300 transition-all duration-300">
+                    <span className="text-4xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-600 group-hover:from-white group-hover:to-zinc-300 transition-all duration-300">
                       {link.name}
                     </span>
                   </motion.a>
